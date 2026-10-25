@@ -1,88 +1,80 @@
+# Linkora
 
-# **🔗 Linkora – Full Stack URL Shortener**
+Linkora is a polished URL shortener built with React, Vite, Tailwind CSS, shadcn/ui, and Supabase. Create short links, manage them from a dashboard, track clicks, and redirect visitors reliably.
 
-Linkora is a modern full-stack URL shortener built with React JS, Tailwind CSS, Shadcn UI, and Supabase.
-It allows users to create short, shareable links with a clean UI and real-time backend support.
-🚀 Features
-🔗 Shorten long URLs instantly
-📊 Track link details with analytics
-🔐 Secure authentication (Supabase Auth)
-🎨 Clean & responsive UI (Tailwind + Shadcn)
-⚡ Fast & scalable backend (Supabase)
-🛡️ URL validation & error handling
-🧩 Reusable UI components
-🛠️ Tech Stack
-Frontend
-React JS
-Tailwind CSS
-Shadcn UI
-Vite
-Backend
-Supabase (Database + Auth + API)
-PostgreSQL
-📂 Project Structure
-Copy code
+## Features
 
-linkora/
-│
-├── public/
-│
-├── src/
-│   ├── components/        # Reusable UI components
-│   ├── pages/             # Application pages
-│   ├── hooks/             # Custom React hooks
-│   ├── lib/               # Supabase configuration
-│   ├── utils/             # Helper functions
-│   ├── App.jsx
-│   └── main.jsx
-│
-├── supabase/
-├── .env
-├── package.json
-└── README.md
-🗄️ Database Schema
-Table: links
-Column Name
-Type
-Description
-id
-uuid
-Primary Key
-original_url
-text
-Long URL
-short_code
-text
-Generated short identifier
-user_id
-uuid
-Authenticated user
-created_at
-timestamp
-Creation time
-⚙️ Installation & Setup
-1️⃣ Clone the repository
-Bash
-Copy code
-git clone https://github.com/your-username/linkora.git
-cd linkora
-2️⃣ Install dependencies
-Bash
-Copy code
-npm install
-3️⃣ Setup Environment Variables
-Create a .env file:
-Copy code
+- Supabase email/password authentication
+- Short URL creation with collision-safe database constraints
+- Personal link dashboard with search, copy, delete, and click totals
+- Public short-link redirects with click tracking
+- Row Level Security so users can only manage their own links
+- Responsive dark glassmorphism UI with reduced-motion support
 
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-4️⃣ Run the project
-Bash
-Copy code
-npm run dev
-🚀 Deployment
-Frontend deployed on Vercel
-Backend powered by Supabase Cloud
-👩‍💻 Author
-Rimjhim Verma
-Full Stack Developer | DSA Enthusiast
+## Requirements
+
+- Node.js 18+
+- A Supabase project
+
+## Setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Create a local environment file:
+
+   ```bash
+   copy .env.example .env
+   ```
+
+3. Add your Supabase project URL and publishable key to `.env`:
+
+   ```env
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-publishable-key
+   ```
+
+4. Run the database setup in the Supabase Dashboard:
+
+   - Open **SQL Editor**.
+   - Paste and run [`supabase/schema.sql`](./supabase/schema.sql).
+   - Confirm that the `links` table and `resolve_link` / `increment_link_click` functions were created.
+
+5. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+## Scripts
+
+```bash
+npm run dev       # Start Vite development server
+npm run build     # Create a production build
+npm run preview   # Preview the production build
+npm run lint      # Run ESLint
+```
+
+## Project structure
+
+```text
+src/
+  components/     Shared layout and UI components
+  db/             Supabase client
+  layouts/        Application shell
+  lib/            Supabase data helpers
+  pages/          Landing, auth, dashboard, detail, and redirect pages
+supabase/
+  schema.sql      Tables, RLS policies, and database functions
+```
+
+## Security notes
+
+- `.env` is ignored and must never be committed.
+- Only the publishable Supabase key belongs in the frontend.
+- Never expose a Supabase service-role key in Vite client code.
+- RLS policies protect dashboard reads, inserts, and deletes.
+- Public redirects use the restricted `resolve_link` database function instead of exposing the whole table.

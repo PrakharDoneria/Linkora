@@ -1,5 +1,5 @@
-import { createBrowserRouter,RouterProvider} from "react-router-dom"
-import './App.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import "./App.css"
 import AppLayout from "./layouts/app-layout"
 import Auth from "./pages/auth";
 import Link from "./pages/link"
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
   element:<AppLayout/>,
   children:[
     {
-    path: '/',
+    path: "/",
     element:<LandingPage/>
     },
 
